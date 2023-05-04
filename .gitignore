@@ -1,0 +1,49 @@
+# minio
+/data
+/bin
+
+# Java build artifacts
+/target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Eclipse files
+/.classpath
+/.project
+/.settings/
+
+# IntelliJ IDEA files
+/.idea/
+*.iml
+
+# NetBeans files
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Visual Studio Code files
+.vscode/
+
+# Gradle files
+.gradle/
+build/
+
+# macOS files
+.DS_Store
+
+# Maven files
+/target/
+!/.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/MavenWrapperDownloader.java
+
+# Log files
+*.log
+
+# Application-specific files
+/application*.yml
+/application*.properties
