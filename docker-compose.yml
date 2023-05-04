@@ -1,43 +1,47 @@
-version: '3.1'
+version: '3'
 
 services:
   postgres:
-    container_name: kmg-postgres
-    image: postgres:latest
+    container_name: MVpostgres
+    image: postgres:14
+    command: ["postgres", "-c", "log_statement=mod", "-c", "log_destination=stderr", "-c", "log_min_duration_statement=50"]  # "log_duration=on"  "log_min_duration_statement=50]
     ports:
-      - '5437:5432'
-    environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: kmg
-      POSTGRES_PASSWORD: 1234
+      - '5432:5432'
+    volumes:
+      - /data/postgres:/data/postgres
+    env_file:
+      - .env.development
     networks:
-      - backend
+      - postgres
 
+  pgadmin:
+    links:
+      - postgres:postgres
+    container_name: MVpgadmin
+    image: dpage/pgadmin4
+    ports:
+      - '8080:80'
+    volumes:
+      - /data/pgadmin:/root/.pgadmin
+    env_file:
+      - .env.development
+    networks:
+      - postgres
 
   redis:
-    container_name: kmg-redis
-    image: redis:latest
+    image: redis:alpine
     ports:
-      - '6380:6379'
-    networks:
-      - backend
-    command: redis-server --appendonly yes
+      - "6379:6379"
 
-  minio:
-    container_name: kmg-minio
-    image: minio/minio:latest
-    ports:
-      - '9000:9000'
-      - "9099:9099"
-    networks:
-      - backend
+  redis-commander:
+    image: rediscommander/redis-commander:latest
     environment:
-      MINIO_ROOT_USER: kmg
-      MINIO_ROOT_PASSWORD: mgko0502
-    volumes:
-      - ./data:/data
-    command: server --address ":9099" --console-address ":9000" /data
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
 
 networks:
-  backend:
+  postgres:
     driver: bridge

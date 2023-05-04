@@ -1,94 +1,72 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.0.6'
-	id 'io.spring.dependency-management' version '1.1.0'
+    id 'java'
+    id 'war'
+    id 'org.springframework.boot' version '3.0.6'
+    id 'io.spring.dependency-management' version '1.1.0'
+//    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
-group = 'com.example'
+group = 'metaverse'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.postgresql:postgresql'
+    testImplementation 'org.testng:testng:7.1.0'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
-	//Lombok
-	// https://mvnrepository.com/artifact/org.projectlombok/lombok
-	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.26'
-	annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.26'
+    //Querydsl 추가
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
+    // email
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 
-	//Security,Jwt
-	//https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '3.0.6'
-	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto
-	implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '6.0.3'
-	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
-	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
-	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
-
-
-
-
-
-	//Minio
-	// https://mvnrepository.com/artifact/io.minio/minio
-	implementation group: 'io.minio', name: 'minio', version: '8.5.2'
-
-	//Swagger
-	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
-	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.1.0'
-
-	//JDBC
-	// https://mvnrepository.com/artifact/org.springframework/spring-jdbc
-	implementation group: 'org.springframework', name: 'spring-jdbc', version: '6.0.8'
-
-	//PostgreSQL
-	// https://mvnrepository.com/artifact/org.postgresql/postgresql
-	implementation group: 'org.postgresql', name: 'postgresql', version: '42.6.0'
-
-	//Mybatis
-	// https://mvnrepository.com/artifact/org.mybatis/mybatis
-	implementation group: 'org.mybatis', name: 'mybatis', version: '3.5.13'
-	// https://mvnrepository.com/artifact/org.mybatis/mybatis-spring
-	implementation group: 'org.mybatis', name: 'mybatis-spring', version: '3.0.1'
-
-	//Redis
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '3.0.6'
-
-	//Smtp
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.0.6'
-
-	//Jpa
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '3.0.6'
-	// https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
-	implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: '8.0.0.Final'
-
-
-//	//Querydsl
-//	// https://mvnrepository.com/artifact/com.querydsl/querydsl-sql
-//	implementation group: 'com.querydsl', name: 'querydsl-sql', version: '5.0.0'
-//	// https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa
-//	implementation group: 'com.querydsl', name: 'querydsl-jpa', version: '5.0.0'
-//	// https://mvnrepository.com/artifact/com.querydsl/querydsl-apt
-//	implementation group: 'com.querydsl', name: 'querydsl-apt', version: '5.0.0'
-
-
-
-
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+// Querydsl 설정부
+def generated = 'src/main/generated'
+
+// querydsl QClass 파일 생성 위치를 지정
+tasks.withType(JavaCompile) {
+    options.getGeneratedSourceOutputDirectory().set(file(generated))
+}
+
+// java source set 에 querydsl QClass 위치 추가
+sourceSets {
+    main.java.srcDirs += [ generated ]
+}
+
+// gradle clean 시에 QClass 디렉토리 삭제
+clean {
+    delete file(generated)
 }
