@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <html>
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <header></header>
+    <body>
+      <div id="content">
+        <table style="border: 1px solid">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <td scope="col">TITLE</td>
+              <td scope="col">CONTENT</td>
+            </tr>
+          </thead>
+          <tbody>
+            {{#articleList}}
+            <tr>
+              <th>{{ id }}</th>
+              <td>{{ title }}</td>
+              <td>{{ content }}</td>
+            </tr>
+            {{/articleList}}
+          </tbody>
+        </table>
+      </div>
+    </body>
+  </html>
+</html>
