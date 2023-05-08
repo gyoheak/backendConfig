@@ -1,13 +1,16 @@
 package com.myserver.myApp.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.myserver.myApp.dto.ArticleForm;
 import com.myserver.myApp.entity.Article;
@@ -58,5 +61,30 @@ public class ArticleController {
         // 3.뷰페이지 설정
 
         return "articles/index";
+    }
+
+    @GetMapping("/articles/{id}/edit")
+    public String editArticle(@PathVariable Long id, Model model) {
+        // 1. 수정할 데이터를 가져온다.
+        Article articleEntity = articleRepository.findById(id).orElse(null);
+
+        // 2. 모델에 데이터 등록
+        model.addAttribute("article", articleEntity);
+
+        return "article/edit";
+    }
+
+    @PostMapping("/article/update")
+    public String updateArticle(ArticleForm form) {
+        log.info(form.toString());
+        // 1. DTO를 엔티티로 변환한다
+        Article articleEntity = form.toEntity();
+        // 2. 엔티티를 저장한다.
+        Article target = articleRepository.findById(articleEntity.getId()).orElse(null);
+        if (target != null) {
+            articleRepository.save(articleEntity);
+            return "redirect:/articles/" + articleEntity.getId();
+        }
+        return "redirect:/articles";
     }
 }

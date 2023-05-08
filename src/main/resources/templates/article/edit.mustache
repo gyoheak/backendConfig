@@ -1,0 +1,11 @@
+{{#article}}
+<form action="/article/update" method="post">
+  <input type="hidden" name="id" value="{{ id }}" />
+  <div>제목</div>
+  <input type="text" name="title" value="{{ title }}" />
+  <div>내용</div>
+  <textarea name="content" id="" cols="30" rows="10">{{ content }}</textarea>
+  <button type="submit">제출</button>
+  <a href="/articles/{{ article.id }}">글 목록</a>
+</form>
+{{/article}}
