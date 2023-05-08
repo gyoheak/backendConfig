@@ -1,14 +1,12 @@
 package com.myserver.myApp.config;
 
-
-import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
 
-@OpenAPIDefinition(info = @Info(title = "Mint API", version = "0.0.1", description = "Mint API"))
 @Configuration
 public class SwaggerConfig {
     private String API_VERSION = "0.0.1";
@@ -16,9 +14,9 @@ public class SwaggerConfig {
     private String API_DESCRIPTION = "Mint API";
 
     @Bean
-    public GroupedOpenApi publicApi() {
-        String[] paths = {"/api/**"};
-        return GroupedOpenApi.builder()
-                .group("public-api").pathsToMatch(paths).build();
+    public OpenAPI openAPI() {
+        Info info = new Info().title(API_NAME).version(API_VERSION).description(API_DESCRIPTION);
+        return new OpenAPI().components(new Components()).info(info);
+
     }
 }
