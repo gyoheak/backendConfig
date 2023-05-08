@@ -8,26 +8,27 @@
     </head>
     <header></header>
     <body>
-      <div id="content">
-        <table style="border: 1px solid">
-          <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <td scope="col">TITLE</td>
-              <td scope="col">CONTENT</td>
-            </tr>
-          </thead>
-          <tbody>
-            {{#articleList}}
-            <tr>
-              <th>{{ id }}</th>
-              <td>{{ title }}</td>
-              <td>{{ content }}</td>
-            </tr>
-            {{/articleList}}
-          </tbody>
-        </table>
-      </div>
+      <table style="border: 1px solid">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <td scope="col">TITLE</td>
+            <td scope="col">CONTENT</td>
+          </tr>
+        </thead>
+        <tbody>
+          {{#articleList}}
+          <tr>
+            <th>{{ id }}</th>
+            <td>
+              <a href="/articles/{{ id }}">{{ title }}</a>
+            </td>
+            <td>{{ content }}</td>
+          </tr>
+          {{/articleList}}
+        </tbody>
+      </table>
+      <a href="/article/new">글쓰기</a>
     </body>
   </html>
 </html>

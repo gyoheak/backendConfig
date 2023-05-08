@@ -35,7 +35,7 @@ public class ArticleController {
         // DB 저장
         Article saved = articleRepository.save(article);
         log.info(saved.toString());
-        return "article/new";
+        return "redirect:/articles/" + saved.getId();
     }
 
     @GetMapping("articles/{id}")
