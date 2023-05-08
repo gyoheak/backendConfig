@@ -1,7 +1,6 @@
 package com.myserver.myApp.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.myserver.myApp.dto.ArticleForm;
 import com.myserver.myApp.entity.Article;
@@ -85,6 +85,13 @@ public class ArticleController {
             articleRepository.save(articleEntity);
             return "redirect:/articles/" + articleEntity.getId();
         }
+        return "redirect:/articles";
+    }
+
+    @GetMapping("/articles/{id}/delete")
+    public String deleteArticle(@PathVariable Long id, RedirectAttributes rttr) {
+        articleRepository.deleteById(id);
+        rttr.addFlashAttribute("msg", "삭제완료!");
         return "redirect:/articles";
     }
 }
