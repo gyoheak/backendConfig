@@ -1,37 +1,49 @@
-HELP.md
-.gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
+# minio
+/data
+/bin
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
+# Java build artifacts
+/target/
+*.class
+*.jar
+*.war
+*.ear
 
-### IntelliJ IDEA ###
-.idea
-*.iws
+# Eclipse files
+/.classpath
+/.project
+/.settings/
+
+# IntelliJ IDEA files
+/.idea/
 *.iml
-*.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
 
-### NetBeans ###
+# NetBeans files
 /nbproject/private/
+/build/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 
-### VS Code ###
+# Visual Studio Code files
 .vscode/
+
+# Gradle files
+.gradle/
+build/
+
+# macOS files
+.DS_Store
+
+# Maven files
+/target/
+!/.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/MavenWrapperDownloader.java
+
+# Log files
+*.log
+
+# Application-specific files
+/application*.yml
+/application*.properties
