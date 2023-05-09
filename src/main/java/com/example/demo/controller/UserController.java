@@ -1,30 +1,21 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.SaveUserDto;
-import com.example.demo.service.user.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import com.example.demo.domain.UserEntity;
+import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/user")
 @RequiredArgsConstructor
+@RestController
 public class UserController {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
-    @Operation(description = "swagger test controller")
-    @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation =  String.class)))
-    @PostMapping("signIn")
-    public void signIn(@RequestBody SaveUserDto saveUserDto){
-        userService.save(saveUserDto);
-    }
-
-    @GetMapping("temporary-numbers/{name}")
-    public void temporaryNumbers(@PathVariable String name) {
-        userService.temporaryNumbers(name);
+    @GetMapping("/user")
+    public UserEntity findUserByJWT(@AuthenticationPrincipal User user){
+        return userRepository.findByEmail(user.getUsername());
     }
 }

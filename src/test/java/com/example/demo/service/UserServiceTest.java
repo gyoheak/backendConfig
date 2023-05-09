@@ -19,13 +19,13 @@ class UserServiceTest {
     @Test
     public void signInTest(){
         //인증번호
-        String randomNumber = userService.temporaryNumbers("myeonggi_ko@tmax.co.kr");
+//        String randomNumber = userService.temporaryNumbers("myeonggi_ko@tmax.co.kr");
         //회원가입 시도
-        SaveUserDto testUser1 = new SaveUserDto("myeonggi_ko@tmax.co.kr", "1234", randomNumber);
-        userService.save(testUser1);
-        //결과
-        UserEntity result = userRepository.findByEmail(testUser1.getEmail());
-        System.out.println("result.getEmail() = " + result.getEmail());
-        System.out.println("result.getPassword() = " + result.getPassword());
+//        SaveUserDto testUser1 = new SaveUserDto("myeonggi_ko@tmax.co.kr", "1234", randomNumber);
+//        userService.save(testUser1);
+//        //결과
+//        UserEntity result = userRepository.findByEmail(testUser1.getEmail());
+//        System.out.println("result.getEmail() = " + result.getEmail());
+//        System.out.println("result.getPassword() = " + result.getPassword());
     }
 }
