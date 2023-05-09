@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "minio.bucket-name",
+      "type": "java.lang.String",
+      "description": "A description for 'minio.bucketName'"
+    },
+    {
+      "name": "minio.secret-key",
+      "type": "java.lang.String",
+      "description": "A description for 'minio.secretKey'"
+    },
+    {
+      "name": "minio.access-key",
+      "type": "java.lang.String",
+      "description": "A description for 'minio.accessKey'"
+    },
+    {
+      "name": "minio.uri",
+      "type": "java.lang.String",
+      "description": "A description for 'minio.uri'"
+    }
+  ]
+}
