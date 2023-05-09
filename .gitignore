@@ -45,5 +45,4 @@ build/
 *.log
 
 # Application-specific files
-/application*.yml
-/application*.properties
+**/aplication.properties
