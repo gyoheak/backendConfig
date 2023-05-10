@@ -1,9 +1,12 @@
 package com.example.demo.auth;
 
+import com.example.demo.service.user.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,6 +25,9 @@ public class SecurityConfig {
     private final TokenProvider tokenProvider;
     private final AuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final AccessDeniedHandler jwtAccessDeniedHandler;
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final CustomUserDetailsService customUserDetailsService;
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -59,7 +65,7 @@ public class SecurityConfig {
 
         @Override
         public void configure(HttpSecurity http) {
-            AuthFilter customFilter = new AuthFilter(tokenProvider);
+            AuthFilter customFilter = new AuthFilter(tokenProvider, redisTemplate,customUserDetailsService);
             http.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
         }
     }
