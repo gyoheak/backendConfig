@@ -1,4 +1,4 @@
-package com.example.demo.service.user;
+package com.example.demo.config.security;
 
 import com.example.demo.domain.UserEntity;
 import com.example.demo.repository.UserRepository;

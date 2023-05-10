@@ -1,16 +1,15 @@
-package com.example.demo.service.user;
+package com.example.demo.service;
 
 import com.example.demo.domain.UserEntity;
 import com.example.demo.dto.SaveUserDto;
 import com.example.demo.exception.UserAlreadyExistsException;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.smtp.SmtpService;
+import com.example.demo.config.smtp.JavaMailer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -20,7 +19,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RedisTemplate<String, Object> redisTemplate;
-    private final SmtpService smtpService;
+    private final JavaMailer smtpService;
 
 
     public void temporaryNumbers(String mail){

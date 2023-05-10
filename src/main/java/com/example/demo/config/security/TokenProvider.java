@@ -1,4 +1,4 @@
-package com.example.demo.auth;
+package com.example.demo.config.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;

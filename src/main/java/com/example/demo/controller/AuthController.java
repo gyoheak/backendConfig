@@ -1,26 +1,20 @@
 package com.example.demo.controller;
 
-import com.example.demo.auth.TokenProvider;
+import com.example.demo.config.security.TokenProvider;
 import com.example.demo.dto.LoginUserDto;
 import com.example.demo.dto.SaveUserDto;
-import com.example.demo.service.user.UserService;
+import com.example.demo.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/account")
