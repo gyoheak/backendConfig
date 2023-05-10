@@ -4,6 +4,7 @@
 
 # Java build artifacts
 /target/
+/out/
 *.class
 *.jar
 *.war
