@@ -1,6 +1,10 @@
 package metaverse.backend.basic;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.minio.BucketExistsArgs;
+import io.minio.MakeBucketArgs;
+import io.minio.MinioClient;
+import io.minio.UploadObjectArgs;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -37,6 +41,9 @@ public class HelloServlet extends HttpServlet {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
     private final String KEY = "keyword";
+
+    @Autowired
+    private MinioClient minioClient;
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -84,18 +91,40 @@ public class HelloServlet extends HttpServlet {
         emailConfig.getJavaMailSender().send(message);
 
         //given
-        String keyword="mx";
-        String keyword2="mv1-1";
+        String keyword = "mx";
+        String keyword2 = "mv1-1";
 
         //when
-        stringRedisTemplate.opsForZSet().add(KEY,keyword,1);
-        stringRedisTemplate.opsForZSet().incrementScore(KEY,keyword,1);
-        stringRedisTemplate.opsForZSet().incrementScore(KEY,keyword,1);
+        stringRedisTemplate.opsForZSet().add(KEY, keyword, 1);
+        stringRedisTemplate.opsForZSet().incrementScore(KEY, keyword, 1);
+        stringRedisTemplate.opsForZSet().incrementScore(KEY, keyword, 1);
 
-        stringRedisTemplate.opsForZSet().add(KEY,keyword2,1);
+        stringRedisTemplate.opsForZSet().add(KEY, keyword2, 1);
 
         //then
         System.out.println(stringRedisTemplate.opsForZSet().popMax(KEY));
         System.out.println(stringRedisTemplate.opsForZSet().popMin(KEY));
+
+        try {
+            boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket("test").build());
+
+            if (!found) {
+                minioClient.makeBucket(MakeBucketArgs.builder().bucket("test").build());
+            } else {
+                System.out.println("Already Exists");
+            }
+
+            minioClient.uploadObject(
+                    UploadObjectArgs.builder()
+                            .bucket("test")
+                            .object("test.jpg")
+                            .filename("C:\\Users\\2023173\\Desktop\\Mx_Erd.jpg")
+                            .build()
+            );
+
+        } catch (Exception e) {
+            System.out.println("File Upload Error:" + e);
+            e.printStackTrace();
+        }
     }
 }

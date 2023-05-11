@@ -46,3 +46,5 @@ build/
 
 # Application-specific files
 **/aplication.properties
+
+./.env.development
