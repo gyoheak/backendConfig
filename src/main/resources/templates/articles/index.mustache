@@ -11,6 +11,7 @@
       <thead>
         <tr>
           <th scope="col">ID</th>
+          <td scope="col">AUTHOR</td>
           <td scope="col">TITLE</td>
           <td scope="col">CONTENT</td>
         </tr>
@@ -19,6 +20,7 @@
         {{#articleList}}
         <tr>
           <th>{{ id }}</th>
+          <td>{{ author }}</td>
           <td>
             <a href="/articles/{{ id }}">{{ title }}</a>
           </td>

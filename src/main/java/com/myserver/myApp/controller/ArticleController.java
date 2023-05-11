@@ -1,5 +1,6 @@
 package com.myserver.myApp.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,6 +92,13 @@ public class ArticleController {
         articleRepository.deleteById(id);
         rttr.addFlashAttribute("msg", "삭제완료!");
         return "redirect:/articles";
+    }
+
+    @GetMapping("/articles/search/{author}")
+    public String searchArticle(@PathVariable String author, Model model) {
+        ArrayList<Article> articleEntities = articleRepository.findArticleByAuthor(author);
+        model.addAttribute("articleList", articleEntities);
+        return "articles/index";
     }
 
     @GetMapping("/person/new")

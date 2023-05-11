@@ -21,7 +21,7 @@ import lombok.ToString;
 public class Article {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //DB가 id 자동생성
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // DB가 id 자동생성
     private Long id;
 
     @Column
@@ -29,4 +29,7 @@ public class Article {
 
     @Column
     private String content;
+
+    @Column
+    private String author;
 }
