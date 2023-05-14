@@ -1,0 +1,20 @@
+version: '3.1'
+services:
+  postgres:
+    container_name: mint
+    image: postgres:14
+    command: [ "postgres", "-c", "log_statement=mod", "-c", "log_destination=stderr", "-c", "log_min_duration_statement=0", "-c", "logging_collector=on", "-c", "log_directory=/var/lib/postgresql/data/pg_log", "-c", "log_filename=postgres.log" ]  # "log_duration=on"  "log_min_duration_statement=50]
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./data/postgres:/data/postgres
+    environment:
+      POSTGRES_DB: mint
+      POSTGRES_USER: mint
+      POSTGRES_PASSWORD: mint1234
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge
