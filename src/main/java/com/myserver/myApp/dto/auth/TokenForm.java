@@ -11,7 +11,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TokenDTO {
+public class TokenForm {
     private String grantType;
     private String accessToken;
     private String refreshToken;
