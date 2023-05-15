@@ -2,7 +2,7 @@ package com.myserver.myApp.config.auth;
 
 import org.springframework.stereotype.Component;
 
-import com.myserver.myApp.dto.auth.TokenDTO;
+import com.myserver.myApp.dto.auth.TokenForm;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -50,7 +50,8 @@ public class TokenProvider implements InitializingBean {
         log.info("KEY: " + key.toString());
     }
 
-    public TokenDTO generateTokenDto(Authentication authentication) {
+    public TokenForm generateTokenDto(Authentication authentication) {
+        log.info("토큰 발급");
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
@@ -73,7 +74,7 @@ public class TokenProvider implements InitializingBean {
                 .setExpiration(refreshTokenExpiresIn)
                 .compact();
 
-        return TokenDTO.builder()
+        return TokenForm.builder()
                 .accessToken(accessToken)
                 .accessTokenExpiresIn(accessTokenExpiresIn.getTime())
                 .refreshToken(refreshToken)
@@ -83,6 +84,7 @@ public class TokenProvider implements InitializingBean {
     public Authentication getAuthentication(String accessToken) {
         // 토큰 값으로 claim 생성
         // 권한 get
+        log.info("토큰 검증");
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
