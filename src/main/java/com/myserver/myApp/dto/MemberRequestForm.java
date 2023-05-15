@@ -4,6 +4,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.myserver.myApp.entity.Member;
+import com.myserver.myApp.entity.auth.Authority;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class MemberRequestForm {
         return Member.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))
+                .authority(Authority.ROLE_USER)
                 .build();
     }
 
