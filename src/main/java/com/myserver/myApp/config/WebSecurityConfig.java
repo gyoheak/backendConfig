@@ -49,7 +49,7 @@ public class WebSecurityConfig {
                 .headers(headers -> headers.frameOptions().sameOrigin())
                 // 세션 미사용
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests().requestMatchers("/auth/**").permitAll()
+                .authorizeHttpRequests().requestMatchers("/**").permitAll()
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
 
