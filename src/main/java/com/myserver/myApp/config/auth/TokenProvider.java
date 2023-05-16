@@ -10,6 +10,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,7 +20,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,25 +29,17 @@ import org.springframework.security.core.userdetails.User;
 
 @Component
 @Slf4j
-public class TokenProvider implements InitializingBean {
+public class TokenProvider {
     private final static String AUTHORITIES_KEY = "auth";
 
-    private final String secret;
     private final long tokenValidityInMilliseconds;
-    private Key key;
+    private final Key key;
 
     public TokenProvider(
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.token-validity-in-seconds}") long tokenValidityInMilliseconds) {
-        this.secret = secret;
         this.tokenValidityInMilliseconds = tokenValidityInMilliseconds;
-    }
-
-    @Override
-    public void afterPropertiesSet() {
-        byte[] keyBytes = secret.getBytes();
-        key = Keys.hmacShaKeyFor(keyBytes);
-        log.info("KEY: " + key.toString());
+        this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
     }
 
     public TokenForm generateTokenDto(Authentication authentication) {
@@ -55,26 +47,30 @@ public class TokenProvider implements InitializingBean {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
-
+        log.info(authorities);
         long now = (new Date()).getTime();
 
         // Access Token
         Date accessTokenExpiresIn = new Date(now + this.tokenValidityInMilliseconds);
+        log.info(authentication.toString());
+        log.info(authorities);
+        log.info(AUTHORITIES_KEY);
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName()) // payload "sub": "name"
                 .claim(AUTHORITIES_KEY, authorities) // payload "auth": "ROLE_USER"
                 .signWith(key, SignatureAlgorithm.HS512) // header "alg": "HS512"
                 .setExpiration(accessTokenExpiresIn) // payload "exp": 1516239022 (예시)
                 .compact();
-
+        log.info(accessToken);
         // Refresh Token
-        Date refreshTokenExpiresIn = new Date(now + this.tokenValidityInMilliseconds * 10);
+        Date refreshTokenExpiresIn = new Date(now + this.tokenValidityInMilliseconds * 10000);
         String refreshToken = Jwts.builder()
                 .signWith(key, SignatureAlgorithm.HS512)
                 .setExpiration(refreshTokenExpiresIn)
                 .compact();
 
         return TokenForm.builder()
+                .grantType("Bearer")
                 .accessToken(accessToken)
                 .accessTokenExpiresIn(accessTokenExpiresIn.getTime())
                 .refreshToken(refreshToken)
