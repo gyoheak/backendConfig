@@ -21,7 +21,7 @@ public class PostgreSqlConfig {
     private String password;
 
     @Bean
-    public Connection getPostgreSqlConnection() throws Exception {
+    public Connection postgreSqlConnection() throws Exception {
         return DriverManager.getConnection(DBUri, userName, password);
     }
 }

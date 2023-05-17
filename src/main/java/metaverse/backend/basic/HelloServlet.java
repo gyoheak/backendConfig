@@ -56,7 +56,7 @@ public class HelloServlet extends HttpServlet {
         response.getWriter().write("안녕?");
 
         try {
-            Connection connection = postgreSqlConfig.getPostgreSqlConnection();
+            Connection connection = postgreSqlConfig.postgreSqlConnection();
             System.out.println(connection);
             Statement pre = connection.createStatement();
             ResultSet rs = pre.executeQuery("select * from test");
